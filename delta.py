@@ -210,3 +210,35 @@ def DOL(traw, populations, blocksize = 200000, correction = False, output = "", 
     left = ["BAABA", "BABBA", "ABBAA", "ABAAA", "ABBAB", "ABAAB", "BAABB", "BABBB"]
     right = ["ABABA", "ABBBA", "BABAA", "BAAAA", "BABAB", "BAAAB", "ABABB", "ABBBB"]
     return(Delta(traw, populations, left, right, blocksize, correction, output, progress))
+
+# DS1S8
+# The ''freshman sum'' of Delta_S1 and minus Delta_S8.
+# I'm not assuming the fourth population carries allele "A", that assumption can be made by filtering the data if desired.
+def DOL(traw, populations, blocksize = 200000, correction = False, output = "", progress = True):
+    left = ["BABAA", "ABABB", "AAABB", "BBBAA"]
+    right = ["BAABA", "ABBAB", "AABAB", "BBABA"]
+    return(Delta(traw, populations, left, right, blocksize, correction, output, progress))
+
+# DS2S8
+# The ''freshman sum'' of Delta_S2 and minus Delta_S8.
+# I'm not assuming the fourth population carries allele "A", that assumption can be made by filtering the data if desired.
+def DOL(traw, populations, blocksize = 200000, correction = False, output = "", progress = True):
+    left = ["ABBAA", "BAABB", "AAABB", "BBBAA"]
+    right = ["ABABA", "BABAB", "AABAB", "BBABA"]
+    return(Delta(traw, populations, left, right, blocksize, correction, output, progress))
+
+# DS3S7
+# The ''freshman sum'' of Delta_S3 and minus Delta_S7.
+# I'm not assuming the fourth population carries allele "A", that assumption can be made by filtering the data if desired.
+def DOL(traw, populations, blocksize = 200000, correction = False, output = "", progress = True):
+    left = ["BABAA", "ABABB", "ABAAB", "BABBA"]
+    right = ["ABBAA", "BAABB", "BAAAB", "ABBBA"]
+    return(Delta(traw, populations, left, right, blocksize, correction, output, progress))
+
+# DS4S7
+# The ''freshman sum'' of Delta_S4 and minus Delta_S7.
+# I'm not assuming the fourth population carries allele "A", that assumption can be made by filtering the data if desired.
+def DOL(traw, populations, blocksize = 200000, correction = False, output = "", progress = True):
+    left = ["BAABA", "ABBAB", "ABAAB", "BABBA"]
+    right = ["ABABA", "BABAB", "BAAAB", "ABBBA"]
+    return(Delta(traw, populations, left, right, blocksize, correction, output, progress))
