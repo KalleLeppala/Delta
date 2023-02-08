@@ -242,3 +242,19 @@ def DOL(traw, populations, blocksize = 200000, correction = False, output = "", 
     left = ["BAABA", "ABBAB", "ABAAB", "BABBA"]
     right = ["ABABA", "BABAB", "BAAAB", "ABBBA"]
     return(Delta(traw, populations, left, right, blocksize, correction, output, progress))
+
+# DS7S9
+# The ''freshman sum'' of Delta_S7 and Delta_S9.
+# I'm not assuming the fourth population carries allele "A", that assumption can be made by filtering the data if desired.
+def DOL(traw, populations, blocksize = 200000, correction = False, output = "", progress = True):
+    left = ["BAAAB", "ABBBA", "BAAAA", "ABBBB"]
+    right = ["ABAAB", "BABBA", "ABAAA", "BABBB"]
+    return(Delta(traw, populations, left, right, blocksize, correction, output, progress))
+
+# DS8S0
+# The ''freshman sum'' of Delta_S8 and Delta_S10.
+# I'm not assuming the fourth population carries allele "A", that assumption can be made by filtering the data if desired.
+def DOL(traw, populations, blocksize = 200000, correction = False, output = "", progress = True):
+    left = ["AABAB", "BBABA", "AABAA", "BBABB"]
+    right = ["AAABB", "BBBAA", "AAABA", "BBBAB"]
+    return(Delta(traw, populations, left, right, blocksize, correction, output, progress))

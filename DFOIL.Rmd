@@ -743,7 +743,7 @@ DELTA_Q10 <- function(X, alpha = 0.01) {
 	return(list(value, pvalue, sign))
 }
 
-DSU1 <- function(X, alpha = 0.01) {
+DS1S8 <- function(X, alpha = 0.01) {
 	L <- n(X, "BABAA") + n(X, "ABABB") + n(X, "AAABB") + n(X, "BBBAA")
 	R <- n(X, "BAABA") + n(X, "ABBAB") + n(X, "AABAB") + n(X, "BBABA")
 	value <- as.numeric((L - R)/(L + R))
@@ -759,23 +759,7 @@ DSU1 <- function(X, alpha = 0.01) {
 	return(list(value, pvalue, sign))
 }
 
-DSU2 <- function(X, alpha = 0.01) {
-	L <- n(X, "BAABA") + n(X, "ABBAB") + n(X, "ABAAB") + n(X, "BABBA")
-	R <- n(X, "ABABA") + n(X, "BABAB") + n(X, "BAAAB") + n(X, "ABBBA")
-	value <- as.numeric((L - R)/(L + R))
-	pvalue <- 2*as.numeric(1 - pnorm(abs((L - R)/sqrt(L + R))))
-	if (is.numeric(pvalue) == TRUE && is.nan(pvalue) == FALSE) {
-		if (pvalue > alpha) {
-			sign <- "0"
-		} else {
-	    if (value > 0) {sign <- "+"}
-	    if (value < 0) {sign <- "-"}		  	
-		}
-	} else {sign <- "?"}
-	return(list(value, pvalue, sign))
-}
-
-DSU3 <- function(X, alpha = 0.01) {
+DS2S8 <- function(X, alpha = 0.01) {
 	L <- n(X, "ABBAA") + n(X, "BAABB") + n(X, "AAABB") + n(X, "BBBAA")
 	R <- n(X, "ABABA") + n(X, "BABAB") + n(X, "AABAB") + n(X, "BBABA")
 	value <- as.numeric((L - R)/(L + R))
@@ -791,9 +775,57 @@ DSU3 <- function(X, alpha = 0.01) {
 	return(list(value, pvalue, sign))
 }
 
-DSU4 <- function(X, alpha = 0.01) {
-	L <- n(X, "BABAA") + n(X, "ABABB") + n(X, "BABBA") + n(X, "ABAAB")
-	R <- n(X, "ABBAA") + n(X, "BAABB") + n(X, "ABBBA") + n(X, "BAAAB")
+DS3S7 <- function(X, alpha = 0.01) {
+	L <- n(X, "BABAA") + n(X, "ABABB") + n(X, "ABAAB") + n(X, "BABBA")
+	R <- n(X, "ABBAA") + n(X, "BAABB") + n(X, "BAAAB") + n(X, "ABBBA")
+	value <- as.numeric((L - R)/(L + R))
+	pvalue <- 2*as.numeric(1 - pnorm(abs((L - R)/sqrt(L + R))))
+	if (is.numeric(pvalue) == TRUE && is.nan(pvalue) == FALSE) {
+		if (pvalue > alpha) {
+			sign <- "0"
+		} else {
+	    if (value > 0) {sign <- "+"}
+	    if (value < 0) {sign <- "-"}		  	
+		}
+	} else {sign <- "?"}
+	return(list(value, pvalue, sign))
+}
+
+DS4S7 <- function(X, alpha = 0.01) {
+	L <- n(X, "BAABA") + n(X, "ABBAB") + n(X, "ABAAB") + n(X, "BABBA")
+	R <- n(X, "ABABA") + n(X, "BABAB") + n(X, "BAAAB") + n(X, "ABBBA")
+	value <- as.numeric((L - R)/(L + R))
+	pvalue <- 2*as.numeric(1 - pnorm(abs((L - R)/sqrt(L + R))))
+	if (is.numeric(pvalue) == TRUE && is.nan(pvalue) == FALSE) {
+		if (pvalue > alpha) {
+			sign <- "0"
+		} else {
+	    if (value > 0) {sign <- "+"}
+	    if (value < 0) {sign <- "-"}		  	
+		}
+	} else {sign <- "?"}
+	return(list(value, pvalue, sign))
+}
+
+DS7S9 <- function(X, alpha = 0.01) {
+	L <- n(X, "BAAAB") + n(X, "ABBBA") + n(X, "BAAAA") + n(X, "ABBBB")
+	R <- n(X, "ABAAB") + n(X, "BABBA") + n(X, "ABAAA") + n(X, "BABBB")
+	value <- as.numeric((L - R)/(L + R))
+	pvalue <- 2*as.numeric(1 - pnorm(abs((L - R)/sqrt(L + R))))
+	if (is.numeric(pvalue) == TRUE && is.nan(pvalue) == FALSE) {
+		if (pvalue > alpha) {
+			sign <- "0"
+		} else {
+	    if (value > 0) {sign <- "+"}
+	    if (value < 0) {sign <- "-"}		  	
+		}
+	} else {sign <- "?"}
+	return(list(value, pvalue, sign))
+}
+
+DS8S0 <- function(X, alpha = 0.01) {
+	L <- n(X, "AABAB") + n(X, "BBABA") + n(X, "AABAA") + n(X, "BBABB")
+	R <- n(X, "AAABB") + n(X, "BBBAA") + n(X, "AAABA") + n(X, "BBBAB")
 	value <- as.numeric((L - R)/(L + R))
 	pvalue <- 2*as.numeric(1 - pnorm(abs((L - R)/sqrt(L + R))))
 	if (is.numeric(pvalue) == TRUE && is.nan(pvalue) == FALSE) {
@@ -1910,10 +1942,6 @@ save(symmetric, file = "symmetric.RData")
 ```
 
 
-
-
-
-
 ```{r new_symmetric_statistics}
 load(file = "symmetric_tables.RData")
 event <- character(0)
@@ -1924,228 +1952,228 @@ sign <- numeric(0)
 
 # P1 -> P3
 table <- tables[[1]]
-event <- c(event, rep("P1 -> P3", 4))
-statistic <- c(statistic, "SU1", "SU2", "SU3", "SU4")
-value <- c(value, DSU1(table)[[1]], DSU2(table)[[1]], DSU3(table)[[1]], DSU4(table)[[1]])
-pvalue <- c(pvalue, DSU1(table)[[2]], DSU2(table)[[2]], DSU3(table)[[2]], DSU4(table)[[2]])
-sign <- c(sign, DSU1(table)[[3]], DSU2(table)[[3]], DSU3(table)[[3]], DSU4(table)[[3]])
+event <- c(event, rep("P1 -> P3", 6))
+statistic <- c(statistic, "DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0")
+value <- c(value, DS1S8(table)[[1]], DS2S8(table)[[1]], DS3S7(table)[[1]], DS4S7(table)[[1]], DS7S9(table)[[1]], DS8S0(table)[[1]])
+pvalue <- c(pvalue, DS1S8(table)[[2]], DS2S8(table)[[2]], DS3S7(table)[[2]], DS4S7(table)[[2]], DS7S9(table)[[2]], DS8S0(table)[[2]])
+sign <- c(sign, DS1S8(table)[[3]], DS2S8(table)[[3]], DS3S7(table)[[3]], DS4S7(table)[[3]], DS7S9(table)[[3]], DS8S0(table)[[3]])
 # P3 -> P1
 table <- tables[[2]]
-event <- c(event, rep("P3 -> P1", 4))
-statistic <- c(statistic, "SU1", "SU2", "SU3", "SU4")
-value <- c(value, DSU1(table)[[1]], DSU2(table)[[1]], DSU3(table)[[1]], DSU4(table)[[1]])
-pvalue <- c(pvalue, DSU1(table)[[2]], DSU2(table)[[2]], DSU3(table)[[2]], DSU4(table)[[2]])
-sign <- c(sign, DSU1(table)[[3]], DSU2(table)[[3]], DSU3(table)[[3]], DSU4(table)[[3]])
+event <- c(event, rep("P3 -> P1", 6))
+statistic <- c(statistic, "DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0")
+value <- c(value, DS1S8(table)[[1]], DS2S8(table)[[1]], DS3S7(table)[[1]], DS4S7(table)[[1]], DS7S9(table)[[1]], DS8S0(table)[[1]])
+pvalue <- c(pvalue, DS1S8(table)[[2]], DS2S8(table)[[2]], DS3S7(table)[[2]], DS4S7(table)[[2]], DS7S9(table)[[2]], DS8S0(table)[[2]])
+sign <- c(sign, DS1S8(table)[[3]], DS2S8(table)[[3]], DS3S7(table)[[3]], DS4S7(table)[[3]], DS7S9(table)[[3]], DS8S0(table)[[3]])
 # P1 -> P4
 table <- tables[[3]]
-event <- c(event, rep("P1 -> P4", 4))
-statistic <- c(statistic, "SU1", "SU2", "SU3", "SU4")
-value <- c(value, DSU1(table)[[1]], DSU2(table)[[1]], DSU3(table)[[1]], DSU4(table)[[1]])
-pvalue <- c(pvalue, DSU1(table)[[2]], DSU2(table)[[2]], DSU3(table)[[2]], DSU4(table)[[2]])
-sign <- c(sign, DSU1(table)[[3]], DSU2(table)[[3]], DSU3(table)[[3]], DSU4(table)[[3]])
+event <- c(event, rep("P1 -> P4", 6))
+statistic <- c(statistic, "DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0")
+value <- c(value, DS1S8(table)[[1]], DS2S8(table)[[1]], DS3S7(table)[[1]], DS4S7(table)[[1]], DS7S9(table)[[1]], DS8S0(table)[[1]])
+pvalue <- c(pvalue, DS1S8(table)[[2]], DS2S8(table)[[2]], DS3S7(table)[[2]], DS4S7(table)[[2]], DS7S9(table)[[2]], DS8S0(table)[[2]])
+sign <- c(sign, DS1S8(table)[[3]], DS2S8(table)[[3]], DS3S7(table)[[3]], DS4S7(table)[[3]], DS7S9(table)[[3]], DS8S0(table)[[3]])
 # P4 -> P1
 table <- tables[[4]]
-event <- c(event, rep("P4 -> P1", 4))
-statistic <- c(statistic, "SU1", "SU2", "SU3", "SU4")
-value <- c(value, DSU1(table)[[1]], DSU2(table)[[1]], DSU3(table)[[1]], DSU4(table)[[1]])
-pvalue <- c(pvalue, DSU1(table)[[2]], DSU2(table)[[2]], DSU3(table)[[2]], DSU4(table)[[2]])
-sign <- c(sign, DSU1(table)[[3]], DSU2(table)[[3]], DSU3(table)[[3]], DSU4(table)[[3]])
+event <- c(event, rep("P4 -> P1", 6))
+statistic <- c(statistic, "DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0")
+value <- c(value, DS1S8(table)[[1]], DS2S8(table)[[1]], DS3S7(table)[[1]], DS4S7(table)[[1]], DS7S9(table)[[1]], DS8S0(table)[[1]])
+pvalue <- c(pvalue, DS1S8(table)[[2]], DS2S8(table)[[2]], DS3S7(table)[[2]], DS4S7(table)[[2]], DS7S9(table)[[2]], DS8S0(table)[[2]])
+sign <- c(sign, DS1S8(table)[[3]], DS2S8(table)[[3]], DS3S7(table)[[3]], DS4S7(table)[[3]], DS7S9(table)[[3]], DS8S0(table)[[3]])
 # P2 -> P3
 table <- tables[[5]]
-event <- c(event, rep("P2 -> P3", 4))
-statistic <- c(statistic, "SU1", "SU2", "SU3", "SU4")
-value <- c(value, DSU1(table)[[1]], DSU2(table)[[1]], DSU3(table)[[1]], DSU4(table)[[1]])
-pvalue <- c(pvalue, DSU1(table)[[2]], DSU2(table)[[2]], DSU3(table)[[2]], DSU4(table)[[2]])
-sign <- c(sign, DSU1(table)[[3]], DSU2(table)[[3]], DSU3(table)[[3]], DSU4(table)[[3]])
+event <- c(event, rep("P2 -> P3", 6))
+statistic <- c(statistic, "DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0")
+value <- c(value, DS1S8(table)[[1]], DS2S8(table)[[1]], DS3S7(table)[[1]], DS4S7(table)[[1]], DS7S9(table)[[1]], DS8S0(table)[[1]])
+pvalue <- c(pvalue, DS1S8(table)[[2]], DS2S8(table)[[2]], DS3S7(table)[[2]], DS4S7(table)[[2]], DS7S9(table)[[2]], DS8S0(table)[[2]])
+sign <- c(sign, DS1S8(table)[[3]], DS2S8(table)[[3]], DS3S7(table)[[3]], DS4S7(table)[[3]], DS7S9(table)[[3]], DS8S0(table)[[3]])
 # P3 -> P2
 table <- tables[[6]]
-event <- c(event, rep("P3 -> P2", 4))
-statistic <- c(statistic, "SU1", "SU2", "SU3", "SU4")
-value <- c(value, DSU1(table)[[1]], DSU2(table)[[1]], DSU3(table)[[1]], DSU4(table)[[1]])
-pvalue <- c(pvalue, DSU1(table)[[2]], DSU2(table)[[2]], DSU3(table)[[2]], DSU4(table)[[2]])
-sign <- c(sign, DSU1(table)[[3]], DSU2(table)[[3]], DSU3(table)[[3]], DSU4(table)[[3]])
+event <- c(event, rep("P3 -> P2", 6))
+statistic <- c(statistic, "DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0")
+value <- c(value, DS1S8(table)[[1]], DS2S8(table)[[1]], DS3S7(table)[[1]], DS4S7(table)[[1]], DS7S9(table)[[1]], DS8S0(table)[[1]])
+pvalue <- c(pvalue, DS1S8(table)[[2]], DS2S8(table)[[2]], DS3S7(table)[[2]], DS4S7(table)[[2]], DS7S9(table)[[2]], DS8S0(table)[[2]])
+sign <- c(sign, DS1S8(table)[[3]], DS2S8(table)[[3]], DS3S7(table)[[3]], DS4S7(table)[[3]], DS7S9(table)[[3]], DS8S0(table)[[3]])
 # P2 -> P4
 table <- tables[[7]]
-event <- c(event, rep("P2 -> P4", 4))
-statistic <- c(statistic, "SU1", "SU2", "SU3", "SU4")
-value <- c(value, DSU1(table)[[1]], DSU2(table)[[1]], DSU3(table)[[1]], DSU4(table)[[1]])
-pvalue <- c(pvalue, DSU1(table)[[2]], DSU2(table)[[2]], DSU3(table)[[2]], DSU4(table)[[2]])
-sign <- c(sign, DSU1(table)[[3]], DSU2(table)[[3]], DSU3(table)[[3]], DSU4(table)[[3]])
+event <- c(event, rep("P2 -> P4", 6))
+statistic <- c(statistic, "DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0")
+value <- c(value, DS1S8(table)[[1]], DS2S8(table)[[1]], DS3S7(table)[[1]], DS4S7(table)[[1]], DS7S9(table)[[1]], DS8S0(table)[[1]])
+pvalue <- c(pvalue, DS1S8(table)[[2]], DS2S8(table)[[2]], DS3S7(table)[[2]], DS4S7(table)[[2]], DS7S9(table)[[2]], DS8S0(table)[[2]])
+sign <- c(sign, DS1S8(table)[[3]], DS2S8(table)[[3]], DS3S7(table)[[3]], DS4S7(table)[[3]], DS7S9(table)[[3]], DS8S0(table)[[3]])
 # P4 -> P2
 table <- tables[[8]]
-event <- c(event, rep("P4 -> P2", 4))
-statistic <- c(statistic, "SU1", "SU2", "SU3", "SU4")
-value <- c(value, DSU1(table)[[1]], DSU2(table)[[1]], DSU3(table)[[1]], DSU4(table)[[1]])
-pvalue <- c(pvalue, DSU1(table)[[2]], DSU2(table)[[2]], DSU3(table)[[2]], DSU4(table)[[2]])
-sign <- c(sign, DSU1(table)[[3]], DSU2(table)[[3]], DSU3(table)[[3]], DSU4(table)[[3]])
+event <- c(event, rep("P4 -> P2", 6))
+statistic <- c(statistic, "DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0")
+value <- c(value, DS1S8(table)[[1]], DS2S8(table)[[1]], DS3S7(table)[[1]], DS4S7(table)[[1]], DS7S9(table)[[1]], DS8S0(table)[[1]])
+pvalue <- c(pvalue, DS1S8(table)[[2]], DS2S8(table)[[2]], DS3S7(table)[[2]], DS4S7(table)[[2]], DS7S9(table)[[2]], DS8S0(table)[[2]])
+sign <- c(sign, DS1S8(table)[[3]], DS2S8(table)[[3]], DS3S7(table)[[3]], DS4S7(table)[[3]], DS7S9(table)[[3]], DS8S0(table)[[3]])
 # P12 -> P3
 table <- tables[[9]]
-event <- c(event, rep("P12 -> P3", 4))
-statistic <- c(statistic, "SU1", "SU2", "SU3", "SU4")
-value <- c(value, DSU1(table)[[1]], DSU2(table)[[1]], DSU3(table)[[1]], DSU4(table)[[1]])
-pvalue <- c(pvalue, DSU1(table)[[2]], DSU2(table)[[2]], DSU3(table)[[2]], DSU4(table)[[2]])
-sign <- c(sign, DSU1(table)[[3]], DSU2(table)[[3]], DSU3(table)[[3]], DSU4(table)[[3]])
+event <- c(event, rep("P12 -> P3", 6))
+statistic <- c(statistic, "DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0")
+value <- c(value, DS1S8(table)[[1]], DS2S8(table)[[1]], DS3S7(table)[[1]], DS4S7(table)[[1]], DS7S9(table)[[1]], DS8S0(table)[[1]])
+pvalue <- c(pvalue, DS1S8(table)[[2]], DS2S8(table)[[2]], DS3S7(table)[[2]], DS4S7(table)[[2]], DS7S9(table)[[2]], DS8S0(table)[[2]])
+sign <- c(sign, DS1S8(table)[[3]], DS2S8(table)[[3]], DS3S7(table)[[3]], DS4S7(table)[[3]], DS7S9(table)[[3]], DS8S0(table)[[3]])
 # P3 -> P12
 table <- tables[[10]]
-event <- c(event, rep("P3 -> P12", 4))
-statistic <- c(statistic, "SU1", "SU2", "SU3", "SU4")
-value <- c(value, DSU1(table)[[1]], DSU2(table)[[1]], DSU3(table)[[1]], DSU4(table)[[1]])
-pvalue <- c(pvalue, DSU1(table)[[2]], DSU2(table)[[2]], DSU3(table)[[2]], DSU4(table)[[2]])
-sign <- c(sign, DSU1(table)[[3]], DSU2(table)[[3]], DSU3(table)[[3]], DSU4(table)[[3]])
+event <- c(event, rep("P3 -> P12", 6))
+statistic <- c(statistic, "DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0")
+value <- c(value, DS1S8(table)[[1]], DS2S8(table)[[1]], DS3S7(table)[[1]], DS4S7(table)[[1]], DS7S9(table)[[1]], DS8S0(table)[[1]])
+pvalue <- c(pvalue, DS1S8(table)[[2]], DS2S8(table)[[2]], DS3S7(table)[[2]], DS4S7(table)[[2]], DS7S9(table)[[2]], DS8S0(table)[[2]])
+sign <- c(sign, DS1S8(table)[[3]], DS2S8(table)[[3]], DS3S7(table)[[3]], DS4S7(table)[[3]], DS7S9(table)[[3]], DS8S0(table)[[3]])
 # P12 -> P4
 table <- tables[[11]]
-event <- c(event, rep("P12 -> P4", 4))
-statistic <- c(statistic, "SU1", "SU2", "SU3", "SU4")
-value <- c(value, DSU1(table)[[1]], DSU2(table)[[1]], DSU3(table)[[1]], DSU4(table)[[1]])
-pvalue <- c(pvalue, DSU1(table)[[2]], DSU2(table)[[2]], DSU3(table)[[2]], DSU4(table)[[2]])
-sign <- c(sign, DSU1(table)[[3]], DSU2(table)[[3]], DSU3(table)[[3]], DSU4(table)[[3]])
+event <- c(event, rep("P12 -> P4", 6))
+statistic <- c(statistic, "DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0")
+value <- c(value, DS1S8(table)[[1]], DS2S8(table)[[1]], DS3S7(table)[[1]], DS4S7(table)[[1]], DS7S9(table)[[1]], DS8S0(table)[[1]])
+pvalue <- c(pvalue, DS1S8(table)[[2]], DS2S8(table)[[2]], DS3S7(table)[[2]], DS4S7(table)[[2]], DS7S9(table)[[2]], DS8S0(table)[[2]])
+sign <- c(sign, DS1S8(table)[[3]], DS2S8(table)[[3]], DS3S7(table)[[3]], DS4S7(table)[[3]], DS7S9(table)[[3]], DS8S0(table)[[3]])
 # P4 -> P12
 table <- tables[[12]]
-event <- c(event, rep("P4 -> P12", 4))
-statistic <- c(statistic, "SU1", "SU2", "SU3", "SU4")
-value <- c(value, DSU1(table)[[1]], DSU2(table)[[1]], DSU3(table)[[1]], DSU4(table)[[1]])
-pvalue <- c(pvalue, DSU1(table)[[2]], DSU2(table)[[2]], DSU3(table)[[2]], DSU4(table)[[2]])
-sign <- c(sign, DSU1(table)[[3]], DSU2(table)[[3]], DSU3(table)[[3]], DSU4(table)[[3]])
+event <- c(event, rep("P4 -> P12", 6))
+statistic <- c(statistic, "DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0")
+value <- c(value, DS1S8(table)[[1]], DS2S8(table)[[1]], DS3S7(table)[[1]], DS4S7(table)[[1]], DS7S9(table)[[1]], DS8S0(table)[[1]])
+pvalue <- c(pvalue, DS1S8(table)[[2]], DS2S8(table)[[2]], DS3S7(table)[[2]], DS4S7(table)[[2]], DS7S9(table)[[2]], DS8S0(table)[[2]])
+sign <- c(sign, DS1S8(table)[[3]], DS2S8(table)[[3]], DS3S7(table)[[3]], DS4S7(table)[[3]], DS7S9(table)[[3]], DS8S0(table)[[3]])
 # P34 -> P1
 table <- tables[[13]]
-event <- c(event, rep("P34 -> P1", 4))
-statistic <- c(statistic, "SU1", "SU2", "SU3", "SU4")
-value <- c(value, DSU1(table)[[1]], DSU2(table)[[1]], DSU3(table)[[1]], DSU4(table)[[1]])
-pvalue <- c(pvalue, DSU1(table)[[2]], DSU2(table)[[2]], DSU3(table)[[2]], DSU4(table)[[2]])
-sign <- c(sign, DSU1(table)[[3]], DSU2(table)[[3]], DSU3(table)[[3]], DSU4(table)[[3]])
+event <- c(event, rep("P34 -> P1", 6))
+statistic <- c(statistic, "DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0")
+value <- c(value, DS1S8(table)[[1]], DS2S8(table)[[1]], DS3S7(table)[[1]], DS4S7(table)[[1]], DS7S9(table)[[1]], DS8S0(table)[[1]])
+pvalue <- c(pvalue, DS1S8(table)[[2]], DS2S8(table)[[2]], DS3S7(table)[[2]], DS4S7(table)[[2]], DS7S9(table)[[2]], DS8S0(table)[[2]])
+sign <- c(sign, DS1S8(table)[[3]], DS2S8(table)[[3]], DS3S7(table)[[3]], DS4S7(table)[[3]], DS7S9(table)[[3]], DS8S0(table)[[3]])
 # P1 -> P34
 table <- tables[[14]]
-event <- c(event, rep("P1 -> P34", 4))
-statistic <- c(statistic, "SU1", "SU2", "SU3", "SU4")
-value <- c(value, DSU1(table)[[1]], DSU2(table)[[1]], DSU3(table)[[1]], DSU4(table)[[1]])
-pvalue <- c(pvalue, DSU1(table)[[2]], DSU2(table)[[2]], DSU3(table)[[2]], DSU4(table)[[2]])
-sign <- c(sign, DSU1(table)[[3]], DSU2(table)[[3]], DSU3(table)[[3]], DSU4(table)[[3]])
+event <- c(event, rep("P1 -> P34", 6))
+statistic <- c(statistic, "DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0")
+value <- c(value, DS1S8(table)[[1]], DS2S8(table)[[1]], DS3S7(table)[[1]], DS4S7(table)[[1]], DS7S9(table)[[1]], DS8S0(table)[[1]])
+pvalue <- c(pvalue, DS1S8(table)[[2]], DS2S8(table)[[2]], DS3S7(table)[[2]], DS4S7(table)[[2]], DS7S9(table)[[2]], DS8S0(table)[[2]])
+sign <- c(sign, DS1S8(table)[[3]], DS2S8(table)[[3]], DS3S7(table)[[3]], DS4S7(table)[[3]], DS7S9(table)[[3]], DS8S0(table)[[3]])
 # P34 -> P2
 table <- tables[[15]]
-event <- c(event, rep("P34 -> P2", 4))
-statistic <- c(statistic, "SU1", "SU2", "SU3", "SU4")
-value <- c(value, DSU1(table)[[1]], DSU2(table)[[1]], DSU3(table)[[1]], DSU4(table)[[1]])
-pvalue <- c(pvalue, DSU1(table)[[2]], DSU2(table)[[2]], DSU3(table)[[2]], DSU4(table)[[2]])
-sign <- c(sign, DSU1(table)[[3]], DSU2(table)[[3]], DSU3(table)[[3]], DSU4(table)[[3]])
+event <- c(event, rep("P34 -> P2", 6))
+statistic <- c(statistic, "DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0")
+value <- c(value, DS1S8(table)[[1]], DS2S8(table)[[1]], DS3S7(table)[[1]], DS4S7(table)[[1]], DS7S9(table)[[1]], DS8S0(table)[[1]])
+pvalue <- c(pvalue, DS1S8(table)[[2]], DS2S8(table)[[2]], DS3S7(table)[[2]], DS4S7(table)[[2]], DS7S9(table)[[2]], DS8S0(table)[[2]])
+sign <- c(sign, DS1S8(table)[[3]], DS2S8(table)[[3]], DS3S7(table)[[3]], DS4S7(table)[[3]], DS7S9(table)[[3]], DS8S0(table)[[3]])
 # P2 -> P34
 table <- tables[[16]]
-event <- c(event, rep("P2 -> P34", 4))
-statistic <- c(statistic, "SU1", "SU2", "SU3", "SU4")
-value <- c(value, DSU1(table)[[1]], DSU2(table)[[1]], DSU3(table)[[1]], DSU4(table)[[1]])
-pvalue <- c(pvalue, DSU1(table)[[2]], DSU2(table)[[2]], DSU3(table)[[2]], DSU4(table)[[2]])
-sign <- c(sign, DSU1(table)[[3]], DSU2(table)[[3]], DSU3(table)[[3]], DSU4(table)[[3]])
+event <- c(event, rep("P2 -> P34", 6))
+statistic <- c(statistic, "DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0")
+value <- c(value, DS1S8(table)[[1]], DS2S8(table)[[1]], DS3S7(table)[[1]], DS4S7(table)[[1]], DS7S9(table)[[1]], DS8S0(table)[[1]])
+pvalue <- c(pvalue, DS1S8(table)[[2]], DS2S8(table)[[2]], DS3S7(table)[[2]], DS4S7(table)[[2]], DS7S9(table)[[2]], DS8S0(table)[[2]])
+sign <- c(sign, DS1S8(table)[[3]], DS2S8(table)[[3]], DS3S7(table)[[3]], DS4S7(table)[[3]], DS7S9(table)[[3]], DS8S0(table)[[3]])
 # P1 -> P5
 table <- tables[[17]]
-event <- c(event, rep("P1 -> P5", 4))
-statistic <- c(statistic, "SU1", "SU2", "SU3", "SU4")
-value <- c(value, DSU1(table)[[1]], DSU2(table)[[1]], DSU3(table)[[1]], DSU4(table)[[1]])
-pvalue <- c(pvalue, DSU1(table)[[2]], DSU2(table)[[2]], DSU3(table)[[2]], DSU4(table)[[2]])
-sign <- c(sign, DSU1(table)[[3]], DSU2(table)[[3]], DSU3(table)[[3]], DSU4(table)[[3]])
+event <- c(event, rep("P1 -> P5", 6))
+statistic <- c(statistic, "DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0")
+value <- c(value, DS1S8(table)[[1]], DS2S8(table)[[1]], DS3S7(table)[[1]], DS4S7(table)[[1]], DS7S9(table)[[1]], DS8S0(table)[[1]])
+pvalue <- c(pvalue, DS1S8(table)[[2]], DS2S8(table)[[2]], DS3S7(table)[[2]], DS4S7(table)[[2]], DS7S9(table)[[2]], DS8S0(table)[[2]])
+sign <- c(sign, DS1S8(table)[[3]], DS2S8(table)[[3]], DS3S7(table)[[3]], DS4S7(table)[[3]], DS7S9(table)[[3]], DS8S0(table)[[3]])
 # P5 -> P1
 table <- tables[[18]]
-event <- c(event, rep("P5 -> P1", 4))
-statistic <- c(statistic, "SU1", "SU2", "SU3", "SU4")
-value <- c(value, DSU1(table)[[1]], DSU2(table)[[1]], DSU3(table)[[1]], DSU4(table)[[1]])
-pvalue <- c(pvalue, DSU1(table)[[2]], DSU2(table)[[2]], DSU3(table)[[2]], DSU4(table)[[2]])
-sign <- c(sign, DSU1(table)[[3]], DSU2(table)[[3]], DSU3(table)[[3]], DSU4(table)[[3]])
+event <- c(event, rep("P5 -> P1", 6))
+statistic <- c(statistic, "DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0")
+value <- c(value, DS1S8(table)[[1]], DS2S8(table)[[1]], DS3S7(table)[[1]], DS4S7(table)[[1]], DS7S9(table)[[1]], DS8S0(table)[[1]])
+pvalue <- c(pvalue, DS1S8(table)[[2]], DS2S8(table)[[2]], DS3S7(table)[[2]], DS4S7(table)[[2]], DS7S9(table)[[2]], DS8S0(table)[[2]])
+sign <- c(sign, DS1S8(table)[[3]], DS2S8(table)[[3]], DS3S7(table)[[3]], DS4S7(table)[[3]], DS7S9(table)[[3]], DS8S0(table)[[3]])
 # P2 -> P5
 table <- tables[[19]]
-event <- c(event, rep("P2 -> P5", 4))
-statistic <- c(statistic, "SU1", "SU2", "SU3", "SU4")
-value <- c(value, DSU1(table)[[1]], DSU2(table)[[1]], DSU3(table)[[1]], DSU4(table)[[1]])
-pvalue <- c(pvalue, DSU1(table)[[2]], DSU2(table)[[2]], DSU3(table)[[2]], DSU4(table)[[2]])
-sign <- c(sign, DSU1(table)[[3]], DSU2(table)[[3]], DSU3(table)[[3]], DSU4(table)[[3]])
+event <- c(event, rep("P2 -> P5", 6))
+statistic <- c(statistic, "DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0")
+value <- c(value, DS1S8(table)[[1]], DS2S8(table)[[1]], DS3S7(table)[[1]], DS4S7(table)[[1]], DS7S9(table)[[1]], DS8S0(table)[[1]])
+pvalue <- c(pvalue, DS1S8(table)[[2]], DS2S8(table)[[2]], DS3S7(table)[[2]], DS4S7(table)[[2]], DS7S9(table)[[2]], DS8S0(table)[[2]])
+sign <- c(sign, DS1S8(table)[[3]], DS2S8(table)[[3]], DS3S7(table)[[3]], DS4S7(table)[[3]], DS7S9(table)[[3]], DS8S0(table)[[3]])
 # P5 -> P2
 table <- tables[[20]]
-event <- c(event, rep("P5 -> P2", 4))
-statistic <- c(statistic, "SU1", "SU2", "SU3", "SU4")
-value <- c(value, DSU1(table)[[1]], DSU2(table)[[1]], DSU3(table)[[1]], DSU4(table)[[1]])
-pvalue <- c(pvalue, DSU1(table)[[2]], DSU2(table)[[2]], DSU3(table)[[2]], DSU4(table)[[2]])
-sign <- c(sign, DSU1(table)[[3]], DSU2(table)[[3]], DSU3(table)[[3]], DSU4(table)[[3]])
+event <- c(event, rep("P5 -> P2", 6))
+statistic <- c(statistic, "DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0")
+value <- c(value, DS1S8(table)[[1]], DS2S8(table)[[1]], DS3S7(table)[[1]], DS4S7(table)[[1]], DS7S9(table)[[1]], DS8S0(table)[[1]])
+pvalue <- c(pvalue, DS1S8(table)[[2]], DS2S8(table)[[2]], DS3S7(table)[[2]], DS4S7(table)[[2]], DS7S9(table)[[2]], DS8S0(table)[[2]])
+sign <- c(sign, DS1S8(table)[[3]], DS2S8(table)[[3]], DS3S7(table)[[3]], DS4S7(table)[[3]], DS7S9(table)[[3]], DS8S0(table)[[3]])
 # P3 -> P5
 table <- tables[[21]]
-event <- c(event, rep("P3 -> P5", 4))
-statistic <- c(statistic, "SU1", "SU2", "SU3", "SU4")
-value <- c(value, DSU1(table)[[1]], DSU2(table)[[1]], DSU3(table)[[1]], DSU4(table)[[1]])
-pvalue <- c(pvalue, DSU1(table)[[2]], DSU2(table)[[2]], DSU3(table)[[2]], DSU4(table)[[2]])
-sign <- c(sign, DSU1(table)[[3]], DSU2(table)[[3]], DSU3(table)[[3]], DSU4(table)[[3]])
+event <- c(event, rep("P3 -> P5", 6))
+statistic <- c(statistic, "DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0")
+value <- c(value, DS1S8(table)[[1]], DS2S8(table)[[1]], DS3S7(table)[[1]], DS4S7(table)[[1]], DS7S9(table)[[1]], DS8S0(table)[[1]])
+pvalue <- c(pvalue, DS1S8(table)[[2]], DS2S8(table)[[2]], DS3S7(table)[[2]], DS4S7(table)[[2]], DS7S9(table)[[2]], DS8S0(table)[[2]])
+sign <- c(sign, DS1S8(table)[[3]], DS2S8(table)[[3]], DS3S7(table)[[3]], DS4S7(table)[[3]], DS7S9(table)[[3]], DS8S0(table)[[3]])
 # P5 -> P3
 table <- tables[[22]]
-event <- c(event, rep("P5 -> P3", 4))
-statistic <- c(statistic, "SU1", "SU2", "SU3", "SU4")
-value <- c(value, DSU1(table)[[1]], DSU2(table)[[1]], DSU3(table)[[1]], DSU4(table)[[1]])
-pvalue <- c(pvalue, DSU1(table)[[2]], DSU2(table)[[2]], DSU3(table)[[2]], DSU4(table)[[2]])
-sign <- c(sign, DSU1(table)[[3]], DSU2(table)[[3]], DSU3(table)[[3]], DSU4(table)[[3]])
+event <- c(event, rep("P5 -> P3", 6))
+statistic <- c(statistic, "DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0")
+value <- c(value, DS1S8(table)[[1]], DS2S8(table)[[1]], DS3S7(table)[[1]], DS4S7(table)[[1]], DS7S9(table)[[1]], DS8S0(table)[[1]])
+pvalue <- c(pvalue, DS1S8(table)[[2]], DS2S8(table)[[2]], DS3S7(table)[[2]], DS4S7(table)[[2]], DS7S9(table)[[2]], DS8S0(table)[[2]])
+sign <- c(sign, DS1S8(table)[[3]], DS2S8(table)[[3]], DS3S7(table)[[3]], DS4S7(table)[[3]], DS7S9(table)[[3]], DS8S0(table)[[3]])
 # P4 -> P5
 table <- tables[[23]]
-event <- c(event, rep("P4 -> P5", 4))
-statistic <- c(statistic, "SU1", "SU2", "SU3", "SU4")
-value <- c(value, DSU1(table)[[1]], DSU2(table)[[1]], DSU3(table)[[1]], DSU4(table)[[1]])
-pvalue <- c(pvalue, DSU1(table)[[2]], DSU2(table)[[2]], DSU3(table)[[2]], DSU4(table)[[2]])
-sign <- c(sign, DSU1(table)[[3]], DSU2(table)[[3]], DSU3(table)[[3]], DSU4(table)[[3]])
+event <- c(event, rep("P4 -> P5", 6))
+statistic <- c(statistic, "DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0")
+value <- c(value, DS1S8(table)[[1]], DS2S8(table)[[1]], DS3S7(table)[[1]], DS4S7(table)[[1]], DS7S9(table)[[1]], DS8S0(table)[[1]])
+pvalue <- c(pvalue, DS1S8(table)[[2]], DS2S8(table)[[2]], DS3S7(table)[[2]], DS4S7(table)[[2]], DS7S9(table)[[2]], DS8S0(table)[[2]])
+sign <- c(sign, DS1S8(table)[[3]], DS2S8(table)[[3]], DS3S7(table)[[3]], DS4S7(table)[[3]], DS7S9(table)[[3]], DS8S0(table)[[3]])
 # P5 -> P4
 table <- tables[[24]]
-event <- c(event, rep("P5 -> P4", 4))
-statistic <- c(statistic, "SU1", "SU2", "SU3", "SU4")
-value <- c(value, DSU1(table)[[1]], DSU2(table)[[1]], DSU3(table)[[1]], DSU4(table)[[1]])
-pvalue <- c(pvalue, DSU1(table)[[2]], DSU2(table)[[2]], DSU3(table)[[2]], DSU4(table)[[2]])
-sign <- c(sign, DSU1(table)[[3]], DSU2(table)[[3]], DSU3(table)[[3]], DSU4(table)[[3]])
+event <- c(event, rep("P5 -> P4", 6))
+statistic <- c(statistic, "DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0")
+value <- c(value, DS1S8(table)[[1]], DS2S8(table)[[1]], DS3S7(table)[[1]], DS4S7(table)[[1]], DS7S9(table)[[1]], DS8S0(table)[[1]])
+pvalue <- c(pvalue, DS1S8(table)[[2]], DS2S8(table)[[2]], DS3S7(table)[[2]], DS4S7(table)[[2]], DS7S9(table)[[2]], DS8S0(table)[[2]])
+sign <- c(sign, DS1S8(table)[[3]], DS2S8(table)[[3]], DS3S7(table)[[3]], DS4S7(table)[[3]], DS7S9(table)[[3]], DS8S0(table)[[3]])
 # P12 -> P5
 table <- tables[[25]]
-event <- c(event, rep("P12 -> P5", 4))
-statistic <- c(statistic, "SU1", "SU2", "SU3", "SU4")
-value <- c(value, DSU1(table)[[1]], DSU2(table)[[1]], DSU3(table)[[1]], DSU4(table)[[1]])
-pvalue <- c(pvalue, DSU1(table)[[2]], DSU2(table)[[2]], DSU3(table)[[2]], DSU4(table)[[2]])
-sign <- c(sign, DSU1(table)[[3]], DSU2(table)[[3]], DSU3(table)[[3]], DSU4(table)[[3]])
+event <- c(event, rep("P12 -> P5", 6))
+statistic <- c(statistic, "DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0")
+value <- c(value, DS1S8(table)[[1]], DS2S8(table)[[1]], DS3S7(table)[[1]], DS4S7(table)[[1]], DS7S9(table)[[1]], DS8S0(table)[[1]])
+pvalue <- c(pvalue, DS1S8(table)[[2]], DS2S8(table)[[2]], DS3S7(table)[[2]], DS4S7(table)[[2]], DS7S9(table)[[2]], DS8S0(table)[[2]])
+sign <- c(sign, DS1S8(table)[[3]], DS2S8(table)[[3]], DS3S7(table)[[3]], DS4S7(table)[[3]], DS7S9(table)[[3]], DS8S0(table)[[3]])
 # P5 -> P12
 table <- tables[[26]]
-event <- c(event, rep("P5 -> P12", 4))
-statistic <- c(statistic, "SU1", "SU2", "SU3", "SU4")
-value <- c(value, DSU1(table)[[1]], DSU2(table)[[1]], DSU3(table)[[1]], DSU4(table)[[1]])
-pvalue <- c(pvalue, DSU1(table)[[2]], DSU2(table)[[2]], DSU3(table)[[2]], DSU4(table)[[2]])
-sign <- c(sign, DSU1(table)[[3]], DSU2(table)[[3]], DSU3(table)[[3]], DSU4(table)[[3]])
+event <- c(event, rep("P5 -> P12", 6))
+statistic <- c(statistic, "DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0")
+value <- c(value, DS1S8(table)[[1]], DS2S8(table)[[1]], DS3S7(table)[[1]], DS4S7(table)[[1]], DS7S9(table)[[1]], DS8S0(table)[[1]])
+pvalue <- c(pvalue, DS1S8(table)[[2]], DS2S8(table)[[2]], DS3S7(table)[[2]], DS4S7(table)[[2]], DS7S9(table)[[2]], DS8S0(table)[[2]])
+sign <- c(sign, DS1S8(table)[[3]], DS2S8(table)[[3]], DS3S7(table)[[3]], DS4S7(table)[[3]], DS7S9(table)[[3]], DS8S0(table)[[3]])
 # P34 -> P5
 table <- tables[[27]]
-event <- c(event, rep("P34 -> P5", 4))
-statistic <- c(statistic, "SU1", "SU2", "SU3", "SU4")
-value <- c(value, DSU1(table)[[1]], DSU2(table)[[1]], DSU3(table)[[1]], DSU4(table)[[1]])
-pvalue <- c(pvalue, DSU1(table)[[2]], DSU2(table)[[2]], DSU3(table)[[2]], DSU4(table)[[2]])
-sign <- c(sign, DSU1(table)[[3]], DSU2(table)[[3]], DSU3(table)[[3]], DSU4(table)[[3]])
+event <- c(event, rep("P34 -> P5", 6))
+statistic <- c(statistic, "DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0")
+value <- c(value, DS1S8(table)[[1]], DS2S8(table)[[1]], DS3S7(table)[[1]], DS4S7(table)[[1]], DS7S9(table)[[1]], DS8S0(table)[[1]])
+pvalue <- c(pvalue, DS1S8(table)[[2]], DS2S8(table)[[2]], DS3S7(table)[[2]], DS4S7(table)[[2]], DS7S9(table)[[2]], DS8S0(table)[[2]])
+sign <- c(sign, DS1S8(table)[[3]], DS2S8(table)[[3]], DS3S7(table)[[3]], DS4S7(table)[[3]], DS7S9(table)[[3]], DS8S0(table)[[3]])
 # P5 -> P34
 table <- tables[[28]]
-event <- c(event, rep("P5 -> P34", 4))
-statistic <- c(statistic, "SU1", "SU2", "SU3", "SU4")
-value <- c(value, DSU1(table)[[1]], DSU2(table)[[1]], DSU3(table)[[1]], DSU4(table)[[1]])
-pvalue <- c(pvalue, DSU1(table)[[2]], DSU2(table)[[2]], DSU3(table)[[2]], DSU4(table)[[2]])
-sign <- c(sign, DSU1(table)[[3]], DSU2(table)[[3]], DSU3(table)[[3]], DSU4(table)[[3]])
+event <- c(event, rep("P5 -> P34", 6))
+statistic <- c(statistic, "DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0")
+value <- c(value, DS1S8(table)[[1]], DS2S8(table)[[1]], DS3S7(table)[[1]], DS4S7(table)[[1]], DS7S9(table)[[1]], DS8S0(table)[[1]])
+pvalue <- c(pvalue, DS1S8(table)[[2]], DS2S8(table)[[2]], DS3S7(table)[[2]], DS4S7(table)[[2]], DS7S9(table)[[2]], DS8S0(table)[[2]])
+sign <- c(sign, DS1S8(table)[[3]], DS2S8(table)[[3]], DS3S7(table)[[3]], DS4S7(table)[[3]], DS7S9(table)[[3]], DS8S0(table)[[3]])
 # P1234 -> P1
 table <- tables[[29]]
-event <- c(event, rep("P1234 -> P1", 4))
-statistic <- c(statistic, "SU1", "SU2", "SU3", "SU4")
-value <- c(value, DSU1(table)[[1]], DSU2(table)[[1]], DSU3(table)[[1]], DSU4(table)[[1]])
-pvalue <- c(pvalue, DSU1(table)[[2]], DSU2(table)[[2]], DSU3(table)[[2]], DSU4(table)[[2]])
-sign <- c(sign, DSU1(table)[[3]], DSU2(table)[[3]], DSU3(table)[[3]], DSU4(table)[[3]])
+event <- c(event, rep("P1234 -> P1", 6))
+statistic <- c(statistic, "DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0")
+value <- c(value, DS1S8(table)[[1]], DS2S8(table)[[1]], DS3S7(table)[[1]], DS4S7(table)[[1]], DS7S9(table)[[1]], DS8S0(table)[[1]])
+pvalue <- c(pvalue, DS1S8(table)[[2]], DS2S8(table)[[2]], DS3S7(table)[[2]], DS4S7(table)[[2]], DS7S9(table)[[2]], DS8S0(table)[[2]])
+sign <- c(sign, DS1S8(table)[[3]], DS2S8(table)[[3]], DS3S7(table)[[3]], DS4S7(table)[[3]], DS7S9(table)[[3]], DS8S0(table)[[3]])
 # P1234 -> P2
 table <- tables[[30]]
-event <- c(event, rep("P1234 -> P2", 4))
-statistic <- c(statistic, "SU1", "SU2", "SU3", "SU4")
-value <- c(value, DSU1(table)[[1]], DSU2(table)[[1]], DSU3(table)[[1]], DSU4(table)[[1]])
-pvalue <- c(pvalue, DSU1(table)[[2]], DSU2(table)[[2]], DSU3(table)[[2]], DSU4(table)[[2]])
-sign <- c(sign, DSU1(table)[[3]], DSU2(table)[[3]], DSU3(table)[[3]], DSU4(table)[[3]])
+event <- c(event, rep("P1234 -> P2", 6))
+statistic <- c(statistic, "DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0")
+value <- c(value, DS1S8(table)[[1]], DS2S8(table)[[1]], DS3S7(table)[[1]], DS4S7(table)[[1]], DS7S9(table)[[1]], DS8S0(table)[[1]])
+pvalue <- c(pvalue, DS1S8(table)[[2]], DS2S8(table)[[2]], DS3S7(table)[[2]], DS4S7(table)[[2]], DS7S9(table)[[2]], DS8S0(table)[[2]])
+sign <- c(sign, DS1S8(table)[[3]], DS2S8(table)[[3]], DS3S7(table)[[3]], DS4S7(table)[[3]], DS7S9(table)[[3]], DS8S0(table)[[3]])
 # P1234 -> P3
 table <- tables[[31]]
-event <- c(event, rep("P1234 -> P3", 4))
-statistic <- c(statistic, "SU1", "SU2", "SU3", "SU4")
-value <- c(value, DSU1(table)[[1]], DSU2(table)[[1]], DSU3(table)[[1]], DSU4(table)[[1]])
-pvalue <- c(pvalue, DSU1(table)[[2]], DSU2(table)[[2]], DSU3(table)[[2]], DSU4(table)[[2]])
-sign <- c(sign, DSU1(table)[[3]], DSU2(table)[[3]], DSU3(table)[[3]], DSU4(table)[[3]])
+event <- c(event, rep("P1234 -> P3", 6))
+statistic <- c(statistic, "DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0")
+value <- c(value, DS1S8(table)[[1]], DS2S8(table)[[1]], DS3S7(table)[[1]], DS4S7(table)[[1]], DS7S9(table)[[1]], DS8S0(table)[[1]])
+pvalue <- c(pvalue, DS1S8(table)[[2]], DS2S8(table)[[2]], DS3S7(table)[[2]], DS4S7(table)[[2]], DS7S9(table)[[2]], DS8S0(table)[[2]])
+sign <- c(sign, DS1S8(table)[[3]], DS2S8(table)[[3]], DS3S7(table)[[3]], DS4S7(table)[[3]], DS7S9(table)[[3]], DS8S0(table)[[3]])
 # P1234 -> P4
 table <- tables[[32]]
-event <- c(event, rep("P1234 -> P4", 4))
-statistic <- c(statistic, "SU1", "SU2", "SU3", "SU4")
-value <- c(value, DSU1(table)[[1]], DSU2(table)[[1]], DSU3(table)[[1]], DSU4(table)[[1]])
-pvalue <- c(pvalue, DSU1(table)[[2]], DSU2(table)[[2]], DSU3(table)[[2]], DSU4(table)[[2]])
-sign <- c(sign, DSU1(table)[[3]], DSU2(table)[[3]], DSU3(table)[[3]], DSU4(table)[[3]])
+event <- c(event, rep("P1234 -> P4", 6))
+statistic <- c(statistic, "DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0")
+value <- c(value, DS1S8(table)[[1]], DS2S8(table)[[1]], DS3S7(table)[[1]], DS4S7(table)[[1]], DS7S9(table)[[1]], DS8S0(table)[[1]])
+pvalue <- c(pvalue, DS1S8(table)[[2]], DS2S8(table)[[2]], DS3S7(table)[[2]], DS4S7(table)[[2]], DS7S9(table)[[2]], DS8S0(table)[[2]])
+sign <- c(sign, DS1S8(table)[[3]], DS2S8(table)[[3]], DS3S7(table)[[3]], DS4S7(table)[[3]], DS7S9(table)[[3]], DS8S0(table)[[3]])
 
 new_symmetric <- data.frame(event = event, statistic = statistic, value = value, pvalue = pvalue, sign = sign)
 save(new_symmetric, file = "new_symmetric.RData")
@@ -2153,13 +2181,47 @@ save(new_symmetric, file = "new_symmetric.RData")
 
 ## Plot my new statistics
 
-```{r replication1}
+```{r newplots1}
 events <- c("P1 -> P3", "P3 -> P1", "P1 -> P4", "P4 -> P1", "P2 -> P3", "P3 -> P2", "P2 -> P4", "P4 -> P2")
-UUSI1 <- new_symmetric[new_symmetric$statistic %in% c("SU1", "SU2", "SU3", "SU4"), ]
+UUSI1 <- new_symmetric[new_symmetric$statistic %in% c("DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0"), ]
 UUSI1 <- UUSI1[UUSI1$event %in% events, ]
-UUSI1$statistic <- factor(UUSI1$statistic, levels <- c("SU1", "SU2", "SU3", "SU4"))
+UUSI1$statistic <- factor(UUSI1$statistic, levels <- c("DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0"))
 UUSI1$event <- factor(UUSI1$event, levels <- events)
 ggplot(UUSI1, aes(fill = statistic, y = value, x = event)) + 
+	geom_bar(position = position_dodge(0.85), stat = "identity") +
+  geom_text(position = position_dodge(0.85), aes(y = 0, label = sign, hjust = 0))
+```
+
+```{r newplots2}
+events <- c("P12 -> P3", "P3 -> P12", "P12 -> P4", "P4 -> P12", "P34 -> P1", "P1 -> P34", "P34 -> P2", "P2 -> P34")
+UUSI2 <- new_symmetric[new_symmetric$statistic %in% c("DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0"), ]
+UUSI2 <- UUSI2[UUSI2$event %in% events, ]
+UUSI2$statistic <- factor(UUSI2$statistic, levels <- c("DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0"))
+UUSI2$event <- factor(UUSI2$event, levels <- events)
+ggplot(UUSI2, aes(fill = statistic, y = value, x = event)) + 
+	geom_bar(position = position_dodge(0.85), stat = "identity") +
+  geom_text(position = position_dodge(0.85), aes(y = 0, label = sign, hjust = 0))
+```
+
+
+```{r newplots3}
+events <- c("P1 -> P5", "P5 -> P1", "P2 -> P5", "P5 -> P2", "P3 -> P5", "P5 -> P3", "P4 -> P5", "P5 -> P4")
+UUSI3 <- new_symmetric[new_symmetric$statistic %in% c("DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0"), ]
+UUSI3 <- UUSI3[UUSI3$event %in% events, ]
+UUSI3$statistic <- factor(UUSI3$statistic, levels <- c("DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0"))
+UUSI3$event <- factor(UUSI3$event, levels <- events)
+ggplot(UUSI3, aes(fill = statistic, y = value, x = event)) + 
+	geom_bar(position = position_dodge(0.85), stat = "identity") +
+  geom_text(position = position_dodge(0.85), aes(y = 0, label = sign, hjust = 0))
+```
+
+```{r newplots4}
+events <- c("P12 -> P5", "P5 -> P12", "P34 -> P5", "P5 -> P34", "P1234 -> P1", "P1234 -> P2", "P1234 -> P3", "P1234 -> P4")
+UUSI4 <- new_symmetric[new_symmetric$statistic %in% c("DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0"), ]
+UUSI4 <- UUSI4[UUSI4$event %in% events, ]
+UUSI4$statistic <- factor(UUSI4$statistic, levels <- c("DS1S8", "DS2S8", "DS3S7", "DS4S7", "DS7S9", "DS8S0"))
+UUSI4$event <- factor(UUSI4$event, levels <- events)
+ggplot(UUSI4, aes(fill = statistic, y = value, x = event)) + 
 	geom_bar(position = position_dodge(0.85), stat = "identity") +
   geom_text(position = position_dodge(0.85), aes(y = 0, label = sign, hjust = 0))
 ```
