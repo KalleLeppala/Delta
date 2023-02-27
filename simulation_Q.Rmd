@@ -1,0 +1,292 @@
+---
+title: "Simulation_A"
+author: "Kalle Leppälä"
+date: "2023-02-22"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+set.seed(1)
+library(ggplot2)
+source("tools.R")
+```
+
+## SIMULATING THE 18 ADMIXTURE SCENARIOS WE ARE ABLE TO DETECT IN TREE Q
+
+```{r simulation}
+tables <- list()
+lambda <- 1
+N <- 1000000
+
+# P1 -> P4
+LLL <- list(lambda = lambda, inhabitants = character(0), samples = list(P1 = 0), switches = list(LLR = c(0.75, 1)))
+LLR <- list(lambda = lambda, inhabitants = character(0), samples = list(P2 = 0), switches = list(LR = c(1.5, 1)))
+LR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P3 = 0), switches = list(RR = c(3, 1)))
+RL  <- list(lambda = lambda, inhabitants = character(0), samples = list(P4 = 0), switches = list(RR = c(2.25, 1), LLL = c(0.375, 0.1)))
+RR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P5 = 0), switches = list())
+graph <- list(LLL = LLL, LLR = LLR, LR = LR, RL = RL, RR = RR)
+abbababa <- character(0)
+for (k in seq(1, N)) {
+	abbababa[length(abbababa) + 1] <- pattern(solve_tree(graph))
+}
+table <- table(abbababa)
+tables[[length(tables) + 1]] <- table
+# P4 -> P1
+LLL <- list(lambda = lambda, inhabitants = character(0), samples = list(P1 = 0), switches = list(LLR = c(0.75, 1), RL = c(0.375, 0.1)))
+LLR <- list(lambda = lambda, inhabitants = character(0), samples = list(P2 = 0), switches = list(LR = c(1.5, 1)))
+LR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P3 = 0), switches = list(RR = c(3, 1)))
+RL  <- list(lambda = lambda, inhabitants = character(0), samples = list(P4 = 0), switches = list(RR = c(2.25, 1)))
+RR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P5 = 0), switches = list())
+graph <- list(LLL = LLL, LLR = LLR, LR = LR, RL = RL, RR = RR)
+abbababa <- character(0)
+for (k in seq(1, N)) {
+	abbababa[length(abbababa) + 1] <- pattern(solve_tree(graph))
+}
+table <- table(abbababa)
+tables[[length(tables) + 1]] <- table
+# P1 -> P5
+LLL <- list(lambda = lambda, inhabitants = character(0), samples = list(P1 = 0), switches = list(LLR = c(0.75, 1)))
+LLR <- list(lambda = lambda, inhabitants = character(0), samples = list(P2 = 0), switches = list(LR = c(1.5, 1)))
+LR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P3 = 0), switches = list(RR = c(3, 1)))
+RL  <- list(lambda = lambda, inhabitants = character(0), samples = list(P4 = 0), switches = list(RR = c(2.25, 1)))
+RR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P5 = 0), switches = list(LLL = c(0.375, 0.1)))
+graph <- list(LLL = LLL, LLR = LLR, LR = LR, RL = RL, RR = RR)
+abbababa <- character(0)
+for (k in seq(1, N)) {
+	abbababa[length(abbababa) + 1] <- pattern(solve_tree(graph))
+}
+table <- table(abbababa)
+tables[[length(tables) + 1]] <- table
+# P5 -> P1
+LLL <- list(lambda = lambda, inhabitants = character(0), samples = list(P1 = 0), switches = list(LLR = c(0.75, 1), RR = c(0.375, 0.1)))
+LLR <- list(lambda = lambda, inhabitants = character(0), samples = list(P2 = 0), switches = list(LR = c(1.5, 1)))
+LR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P3 = 0), switches = list(RR = c(3, 1)))
+RL  <- list(lambda = lambda, inhabitants = character(0), samples = list(P4 = 0), switches = list(RR = c(2.25, 1)))
+RR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P5 = 0), switches = list())
+graph <- list(LLL = LLL, LLR = LLR, LR = LR, RL = RL, RR = RR)
+abbababa <- character(0)
+for (k in seq(1, N)) {
+	abbababa[length(abbababa) + 1] <- pattern(solve_tree(graph))
+}
+table <- table(abbababa)
+tables[[length(tables) + 1]] <- table
+# P2 -> P4
+LLL <- list(lambda = lambda, inhabitants = character(0), samples = list(P1 = 0), switches = list(LLR = c(0.75, 1)))
+LLR <- list(lambda = lambda, inhabitants = character(0), samples = list(P2 = 0), switches = list(LR = c(1.5, 1)))
+LR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P3 = 0), switches = list(RR = c(3, 1)))
+RL  <- list(lambda = lambda, inhabitants = character(0), samples = list(P4 = 0), switches = list(RR = c(2.25, 1), LLL = c(0.375, 0.1)))
+RR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P5 = 0), switches = list())
+graph <- list(LLL = LLL, LLR = LLR, LR = LR, RL = RL, RR = RR)
+abbababa <- character(0)
+for (k in seq(1, N)) {
+	abbababa[length(abbababa) + 1] <- pattern(solve_tree(graph))
+}
+table <- table(abbababa)
+tables[[length(tables) + 1]] <- table
+# P4 -> P2
+LLL <- list(lambda = lambda, inhabitants = character(0), samples = list(P1 = 0), switches = list(LLR = c(0.75, 1)))
+LLR <- list(lambda = lambda, inhabitants = character(0), samples = list(P2 = 0), switches = list(LR = c(1.5, 1), RL = c(0.375, 0.1)))
+LR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P3 = 0), switches = list(RR = c(3, 1)))
+RL  <- list(lambda = lambda, inhabitants = character(0), samples = list(P4 = 0), switches = list(RR = c(2.25, 1)))
+RR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P5 = 0), switches = list())
+graph <- list(LLL = LLL, LLR = LLR, LR = LR, RL = RL, RR = RR)
+abbababa <- character(0)
+for (k in seq(1, N)) {
+	abbababa[length(abbababa) + 1] <- pattern(solve_tree(graph))
+}
+table <- table(abbababa)
+tables[[length(tables) + 1]] <- table
+# P2 -> P5
+LLL <- list(lambda = lambda, inhabitants = character(0), samples = list(P1 = 0), switches = list(LLR = c(0.75, 1)))
+LLR <- list(lambda = lambda, inhabitants = character(0), samples = list(P2 = 0), switches = list(LR = c(1.5, 1)))
+LR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P3 = 0), switches = list(RR = c(3, 1)))
+RL  <- list(lambda = lambda, inhabitants = character(0), samples = list(P4 = 0), switches = list(RR = c(2.25, 1)))
+RR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P5 = 0), switches = list(LLR = c(0.375, 0.1)))
+graph <- list(LLL = LLL, LLR = LLR, LR = LR, RL = RL, RR = RR)
+abbababa <- character(0)
+for (k in seq(1, N)) {
+	abbababa[length(abbababa) + 1] <- pattern(solve_tree(graph))
+}
+table <- table(abbababa)
+tables[[length(tables) + 1]] <- table
+# P5 -> P2
+LLL <- list(lambda = lambda, inhabitants = character(0), samples = list(P1 = 0), switches = list(LLR = c(0.75, 1)))
+LLR <- list(lambda = lambda, inhabitants = character(0), samples = list(P2 = 0), switches = list(LR = c(1.5, 1), RR = c(0.375, 0.1)))
+LR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P3 = 0), switches = list(RR = c(3, 1)))
+RL  <- list(lambda = lambda, inhabitants = character(0), samples = list(P4 = 0), switches = list(RR = c(2.25, 1)))
+RR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P5 = 0), switches = list())
+graph <- list(LLL = LLL, LLR = LLR, LR = LR, RL = RL, RR = RR)
+abbababa <- character(0)
+for (k in seq(1, N)) {
+	abbababa[length(abbababa) + 1] <- pattern(solve_tree(graph))
+}
+table <- table(abbababa)
+tables[[length(tables) + 1]] <- table
+# P1 -> P3
+LLL <- list(lambda = lambda, inhabitants = character(0), samples = list(P1 = 0), switches = list(LLR = c(0.75, 1)))
+LLR <- list(lambda = lambda, inhabitants = character(0), samples = list(P2 = 0), switches = list(LR = c(1.5, 1)))
+LR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P3 = 0), switches = list(RR = c(3, 1), LLL = c(0.375, 0.1)))
+RL  <- list(lambda = lambda, inhabitants = character(0), samples = list(P4 = 0), switches = list(RR = c(2.25, 1)))
+RR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P5 = 0), switches = list())
+graph <- list(LLL = LLL, LLR = LLR, LR = LR, RL = RL, RR = RR)
+abbababa <- character(0)
+for (k in seq(1, N)) {
+	abbababa[length(abbababa) + 1] <- pattern(solve_tree(graph))
+}
+table <- table(abbababa)
+tables[[length(tables) + 1]] <- table
+# P3 -> P1
+LLL <- list(lambda = lambda, inhabitants = character(0), samples = list(P1 = 0), switches = list(LLR = c(0.75, 1), LR = c(0.375, 0.1)))
+LLR <- list(lambda = lambda, inhabitants = character(0), samples = list(P2 = 0), switches = list(LR = c(1.5, 1)))
+LR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P3 = 0), switches = list(RR = c(3, 1)))
+RL  <- list(lambda = lambda, inhabitants = character(0), samples = list(P4 = 0), switches = list(RR = c(2.25, 1)))
+RR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P5 = 0), switches = list())
+graph <- list(LLL = LLL, LLR = LLR, LR = LR, RL = RL, RR = RR)
+abbababa <- character(0)
+for (k in seq(1, N)) {
+	abbababa[length(abbababa) + 1] <- pattern(solve_tree(graph))
+}
+table <- table(abbababa)
+tables[[length(tables) + 1]] <- table
+# P2 -> P3
+LLL <- list(lambda = lambda, inhabitants = character(0), samples = list(P1 = 0), switches = list(LLR = c(0.75, 1)))
+LLR <- list(lambda = lambda, inhabitants = character(0), samples = list(P2 = 0), switches = list(LR = c(1.5, 1)))
+LR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P3 = 0), switches = list(RR = c(3, 1), LLR = c(0.375, 0.1)))
+RL  <- list(lambda = lambda, inhabitants = character(0), samples = list(P4 = 0), switches = list(RR = c(2.25, 1)))
+RR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P5 = 0), switches = list())
+graph <- list(LLL = LLL, LLR = LLR, LR = LR, RL = RL, RR = RR)
+abbababa <- character(0)
+for (k in seq(1, N)) {
+	abbababa[length(abbababa) + 1] <- pattern(solve_tree(graph))
+}
+table <- table(abbababa)
+tables[[length(tables) + 1]] <- table
+# P3 -> P2
+LLL <- list(lambda = lambda, inhabitants = character(0), samples = list(P1 = 0), switches = list(LR = c(1.5, 1)))
+LLR <- list(lambda = lambda, inhabitants = character(0), samples = list(P2 = 0), switches = list(LLL = c(0.75, 1), LR = c(0.375, 0.1)))
+LR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P3 = 0), switches = list(RR = c(3, 1)))
+RL  <- list(lambda = lambda, inhabitants = character(0), samples = list(P4 = 0), switches = list(RR = c(2.25, 1)))
+RR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P5 = 0), switches = list())
+graph <- list(LLL = LLL, LLR = LLR, LR = LR, RL = RL, RR = RR)
+abbababa <- character(0)
+for (k in seq(1, N)) {
+	abbababa[length(abbababa) + 1] <- pattern(solve_tree(graph))
+}
+table <- table(abbababa)
+tables[[length(tables) + 1]] <- table
+# P4 -> P3
+LLL <- list(lambda = lambda, inhabitants = character(0), samples = list(P1 = 0), switches = list(LLR = c(0.75, 1)))
+LLR <- list(lambda = lambda, inhabitants = character(0), samples = list(P2 = 0), switches = list(LR = c(1.5, 1)))
+LR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P3 = 0), switches = list(RR = c(3, 1), RL = c(0.375, 0.1)))
+RL  <- list(lambda = lambda, inhabitants = character(0), samples = list(P4 = 0), switches = list(RR = c(2.25, 1)))
+RR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P5 = 0), switches = list())
+graph <- list(LLL = LLL, LLR = LLR, LR = LR, RL = RL, RR = RR)
+abbababa <- character(0)
+for (k in seq(1, N)) {
+	abbababa[length(abbababa) + 1] <- pattern(solve_tree(graph))
+}
+table <- table(abbababa)
+tables[[length(tables) + 1]] <- table
+# P3 -> P4
+LLL <- list(lambda = lambda, inhabitants = character(0), samples = list(P1 = 0), switches = list(LLR = c(0.75, 1)))
+LLR <- list(lambda = lambda, inhabitants = character(0), samples = list(P2 = 0), switches = list(LR = c(1.5, 1)))
+LR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P3 = 0), switches = list(RR = c(3, 1)))
+RL  <- list(lambda = lambda, inhabitants = character(0), samples = list(P4 = 0), switches = list(RR = c(2.25, 1), LR = c(0.375, 0.1)))
+RR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P5 = 0), switches = list())
+graph <- list(LLL = LLL, LLR = LLR, LR = LR, RL = RL, RR = RR)
+abbababa <- character(0)
+for (k in seq(1, N)) {
+	abbababa[length(abbababa) + 1] <- pattern(solve_tree(graph))
+}
+table <- table(abbababa)
+tables[[length(tables) + 1]] <- table
+# P5 -> P3
+LLL <- list(lambda = lambda, inhabitants = character(0), samples = list(P1 = 0), switches = list(LLR = c(0.75, 1)))
+LLR <- list(lambda = lambda, inhabitants = character(0), samples = list(P2 = 0), switches = list(LR = c(1.5, 1)))
+LR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P3 = 0), switches = list(RL = c(3, 1), RR = c(0.375, 0.1)))
+RL  <- list(lambda = lambda, inhabitants = character(0), samples = list(P4 = 0), switches = list())
+RR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P5 = 0), switches = list(RL = c(2.25, 1)))
+graph <- list(LLL = LLL, LLR = LLR, LR = LR, RL = RL, RR = RR)
+abbababa <- character(0)
+for (k in seq(1, N)) {
+	abbababa[length(abbababa) + 1] <- pattern(solve_tree(graph))
+}
+table <- table(abbababa)
+tables[[length(tables) + 1]] <- table
+# P3 -> P5
+LLL <- list(lambda = lambda, inhabitants = character(0), samples = list(P1 = 0), switches = list(LLR = c(0.75, 1)))
+LLR <- list(lambda = lambda, inhabitants = character(0), samples = list(P2 = 0), switches = list(LR = c(1.5, 1)))
+LR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P3 = 0), switches = list(RR = c(3, 1)))
+RL  <- list(lambda = lambda, inhabitants = character(0), samples = list(P4 = 0), switches = list(RR = c(2.25, 1)))
+RR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P5 = 0), switches = list(LR = c(0.375, 0.1)))
+graph <- list(LLL = LLL, LLR = LLR, LR = LR, RL = RL, RR = RR)
+abbababa <- character(0)
+for (k in seq(1, N)) {
+	abbababa[length(abbababa) + 1] <- pattern(solve_tree(graph))
+}
+table <- table(abbababa)
+tables[[length(tables) + 1]] <- table
+
+
+
+
+
+
+
+# P12 -> P4
+LLL <- list(lambda = lambda, inhabitants = character(0), samples = list(P1 = 0), switches = list(LLR = c(0.75, 1)))
+LLR <- list(lambda = lambda, inhabitants = character(0), samples = list(P2 = 0), switches = list(LR = c(1.5, 1)))
+LR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P3 = 0), switches = list(RR = c(3, 1)))
+RL  <- list(lambda = lambda, inhabitants = character(0), samples = list(P4 = 0), switches = list(RR = c(2.25, 1), LLR = c(1.125, 0.1)))
+RR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P5 = 0), switches = list())
+graph <- list(LLL = LLL, LLR = LLR, LR = LR, RL = RL, RR = RR)
+abbababa <- character(0)
+for (k in seq(1, N)) {
+	abbababa[length(abbababa) + 1] <- pattern(solve_tree(graph))
+}
+table <- table(abbababa)
+tables[[length(tables) + 1]] <- table
+# P4 -> P12
+LLL <- list(lambda = lambda, inhabitants = character(0), samples = list(P1 = 0), switches = list(LLR = c(0.75, 1)))
+LLR <- list(lambda = lambda, inhabitants = character(0), samples = list(P2 = 0), switches = list(LR = c(1.5, 1), RL = c(1.125, 0.1)))
+LR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P3 = 0), switches = list(RR = c(3, 1)))
+RL  <- list(lambda = lambda, inhabitants = character(0), samples = list(P4 = 0), switches = list(RR = c(2.25, 1)))
+RR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P5 = 0), switches = list())
+graph <- list(LLL = LLL, LLR = LLR, LR = LR, RL = RL, RR = RR)
+abbababa <- character(0)
+for (k in seq(1, N)) {
+	abbababa[length(abbababa) + 1] <- pattern(solve_tree(graph))
+}
+table <- table(abbababa)
+tables[[length(tables) + 1]] <- table
+# P12 -> P5
+LLL <- list(lambda = lambda, inhabitants = character(0), samples = list(P1 = 0), switches = list(LLR = c(0.75, 1)))
+LLR <- list(lambda = lambda, inhabitants = character(0), samples = list(P2 = 0), switches = list(LR = c(1.5, 1)))
+LR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P3 = 0), switches = list(RR = c(3, 1)))
+RL  <- list(lambda = lambda, inhabitants = character(0), samples = list(P4 = 0), switches = list(RR = c(2.25, 1)))
+RR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P5 = 0), switches = list(LLR = c(1.125, 0.1)))
+graph <- list(LLL = LLL, LLR = LLR, LR = LR, RL = RL, RR = RR)
+abbababa <- character(0)
+for (k in seq(1, N)) {
+	abbababa[length(abbababa) + 1] <- pattern(solve_tree(graph))
+}
+table <- table(abbababa)
+tables[[length(tables) + 1]] <- table
+# P4 -> P12
+LLL <- list(lambda = lambda, inhabitants = character(0), samples = list(P1 = 0), switches = list(LLR = c(0.75, 1)))
+LLR <- list(lambda = lambda, inhabitants = character(0), samples = list(P2 = 0), switches = list(LR = c(1.5, 1), RL = c(1.125, 0.1)))
+LR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P3 = 0), switches = list(RR = c(3, 1)))
+RL  <- list(lambda = lambda, inhabitants = character(0), samples = list(P4 = 0), switches = list(RR = c(2.25, 1)))
+RR  <- list(lambda = lambda, inhabitants = character(0), samples = list(P5 = 0), switches = list())
+graph <- list(LLL = LLL, LLR = LLR, LR = LR, RL = RL, RR = RR)
+abbababa <- character(0)
+for (k in seq(1, N)) {
+	abbababa[length(abbababa) + 1] <- pattern(solve_tree(graph))
+}
+table <- table(abbababa)
+tables[[length(tables) + 1]] <- table
+
+
+save(tables, file = "tables_Q.RData")
+```

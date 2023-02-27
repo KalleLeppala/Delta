@@ -1,0 +1,194 @@
+---
+title: "Counterintuitive"
+author: "Kalle Leppälä"
+date: "2023-02-12"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+set.seed(1)
+```
+
+In this document I demonstrate by example the counterintuitive phenomenom that pattern BBAAA need not me more frequent than pattern BAABA in the phylogeny (({1,2,3}, {4}), {5}).
+
+## Loading the coalescent simulation functions.
+
+```{r functions}
+solve_branch <- function(branch, coalescent_times, start, end) {
+	# If there's at most one lineage in the branch during the time period, nothing needs to be done.
+	if (length(branch$inhabitants) > 1) {
+    # If there's at least one coalescent event during the time frame, we record it and call the function recursively.
+	  minimum_time <- rexp(1, rate = choose(length(branch$inhabitants), 2)*branch$lambda)
+	  if (minimum_time < end - start) {
+	  	pair <- sample(branch$inhabitants, 2)
+	  	new <- paste(pair[1], pair[2], sep = "")
+	  	branch$inhabitants <- setdiff(c(branch$inhabitants, new), pair)
+	  	coalescent_times[[new]] <- minimum_time + start
+	  	inner <- solve_branch(branch, coalescent_times, minimum_time + start, end)
+	  	branch <- inner$branch
+	  	coalescent_times <- inner$coalescent_times
+	  }
+	}
+	return(list(branch = branch, coalescent_times = coalescent_times))
+}
+
+solve_tree <- function(branches) {
+	coalescent_times <- list()
+	# Compile a vector of pivotal moments (individual sampling times, population divergence and admixture times).
+	pivotal <- numeric(0)
+	for (branch in branches) {
+    for (sample in branch$samples) {pivotal <- c(pivotal, sample)}
+		for (switch in branch$switches) {pivotal <- c(pivotal, switch[1])}
+	}
+	pivotal <- unique(pivotal)
+	pivotal <- pivotal[order(pivotal)]
+	# Add infinity as the last pivotal moment.
+	pivotal[length(pivotal) + 1] <- Inf
+	# For all pivotal moments except the infinity:
+	for (t in seq(1, length(pivotal) - 1)) {
+		now <- pivotal[t]
+	  soon <- pivotal[t + 1]
+	  # First perform the special actions of the pivotal moment (samplings, switches).
+	  for (branch in names(branches)) {
+      for (sample in names(branches[[branch]]$samples)) {
+      	if (branches[[branch]]$samples[[sample]] == now) {
+      		branches[[branch]]$inhabitants <- c(branches[[branch]]$inhabitants, sample)
+      		coalescent_times[[sample]] <- now
+      	}
+      }
+	  	for (switch in names(branches[[branch]]$switches)) {
+	  		if (branches[[branch]]$switches[[switch]][1] == now) {
+	  		  # Moving inhabitants from a branch to another, possibly.
+	  			for (inhabitant in branches[[branch]]$inhabitants) {
+	  			  if (runif(1) < branches[[branch]]$switches[[switch]][2]) {
+	  			  	branches[[branch]]$inhabitants <- setdiff(branches[[branch]]$inhabitants, inhabitant)
+	  			  	branches[[switch]]$inhabitants <- c(branches[[switch]]$inhabitants, inhabitant)
+	  			  }
+	  			}
+	  		}
+	  	}
+	  }
+	  # Then solve each branch until the next pivotal moment.
+	  for (branch in names(branches)) {
+	  	solved <- solve_branch(branches[[branch]], coalescent_times, now, soon)
+	  	branches[[branch]] <- solved$branch
+	  	coalescent_times <- solved$coalescent_times
+	  }
+	}
+	return(coalescent_times)
+}
+
+subsetstring <- function(x, y) {
+	return(all(unlist(strsplit(x, "")) %in% unlist(strsplit(y, ""))))
+}
+
+pattern <- function(tree) {
+  # Adding one point mutation somewhere in the gene tree and reporting the ABBABABA-pattern.
+	# Ignoring the fact that some trees have higher chance of point mutation than others.
+	# Ignoring recurrent and convergent mutations as well.
+	# Pease and Hahn cite Durand (2011) saying it's no big deal.
+	L <- rep(0, length(names(tree)))
+	for (n in seq(1, length(names(tree)))) {
+	  node <- names(tree)[n]
+		candidates <- names(tree)[nchar(names(tree)) > nchar(node)]
+		if (length(candidates > 0)) {
+      candidates <- candidates[sapply(candidates, subsetstring, x = node)]
+			if (length(candidates) > 0) {
+			  parent <- candidates[which.min(nchar(candidates))]
+				L[n] <- tree[[parent]] - tree[[node]]
+			}
+	  }
+	}
+	random <- runif(1)*sum(L)
+	lsum <- 0
+	for (l in seq(1, length(L))) {
+		lsum <- lsum + L[l]
+		if (lsum > random) {break()}
+	} # names(tree)[l] is the first node affected by the mutation.
+	leaves <- max(nchar(names(tree)))/2
+	pattern <- rep("A", leaves)
+	for (j in seq(1, leaves)) {
+		if (grepl(paste(j), names(tree)[l])) {pattern[j] <- "B"}
+	}
+	return(paste(pattern, collapse = ""))
+}
+```
+
+## Simulating patterns
+
+A mutation occurring before merging with the branch {4} can only cause pattern BBAAA, never BAABA. But if this period is so short that it doesn't have much mutations, and the coalescence time so fast that by the time of the merging often exactly one coalescence event has occurred, the tables can turn. After exactly one coalescence event and merging with {4}, if a mutation affecting two lineages is more common than mutation affecting only one lineage due to suitable rate of coalescence, the pattern BAABA becomes more likely than the pattern BBAAA. 
+
+```{r experiment}
+FAST <- list(lambda = 10, inhabitants = character(0), samples = list(P1 = 0, P2 = 0, P3 = 0), switches = list(SLOW = c(0.1, 1)))
+SLOW <- list(lambda = 0.1, inhabitants = character(0), samples = list(), switches = list(OG = c(2, 1)))
+OG <- list(lambda = 1, inhabitants = character(0), samples = list(P4 = 0), switches = list())
+graph <- list(FAST = FAST, SLOW = SLOW, OG = OG)
+abbababa <- character(0)
+for (k in seq(1, 500000)) {
+	abbababa[length(abbababa) + 1] <- pattern(solve_tree(graph))
+}
+table <- table(abbababa)
+print(paste("One lineage:", table["BAAA"] + table["ABBB"] + table["ABAA"] + table["BABB"] + table["AABA"] + table["BBAB"]))
+print(paste("Two lineages:", table["BBAA"] + table["AABB"] + table["BABA"] + table["ABAB"] + table["ABBA"] + table["BAAB"]))
+```
+
+
+
+
+
+```{r simulation}
+SHORT <- list(lambda = 5, inhabitants = character(0), samples = list(P1 = 0, P2 = 0, P3 = 0, P4 = 0), switches = list(LONG = c(0.1, 1)))
+LONG <- list(lambda = 0.1, inhabitants = character(0), samples = list(), switches = list())
+graph <- list(SHORT = SHORT, LONG = LONG)
+abbababa <- character(0)
+for (k in seq(1, 500000)) {
+	abbababa[length(abbababa) + 1] <- pattern(solve_tree(graph))
+}
+table <- table(abbababa)
+print(paste("Singletons:", table["BAAA"] + table["ABBB"]))
+print(paste("Dubbeltons:", table["BBAA"] + table["AABB"]))
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r simulation}
+SHORT <- list(lambda = 5, inhabitants = character(0), samples = list(P2 = 0, P3 = 0, P4 = 0, P5 = 0), switches = list(LONG = c(0.2, 1)))
+LONG <- list(lambda = 0.1, inhabitants = character(0), samples = list(), switches = list())
+OG <- list(lambda = 5, inhabitants = character(0), samples = list(P1 = 0), switches = list(SHORT = c(0.1, 1)))
+graph <- list(SHORT = SHORT, LONG = LONG, OG = OG)
+abbababa <- character(0)
+for (k in seq(1, 500000)) {
+	abbababa[length(abbababa) + 1] <- pattern(solve_tree(graph))
+}
+table <- table(abbababa)
+print(paste("BABAA:", table["BABAA"] + table["ABABB"]))
+print(paste("ABBAA:", table["ABBAA"] + table["BAABB"]))
+```
+
+```{r simulation}
+REST <- list(lambda = 1, inhabitants = character(0), samples = list(P2 = 0, P3 = 0, P4 = 0, P5 = 0), switches = list())
+OG <- list(lambda = 1, inhabitants = character(0), samples = list(P1 = 0), switches = list(REST = c(2, 1)))
+graph <- list(REST = REST, OG = OG)
+abbababa <- character(0)
+for (k in seq(1, 500000)) {
+	abbababa[length(abbababa) + 1] <- pattern(solve_tree(graph))
+}
+table <- table(abbababa)
+print(paste("BABAA:", table["BABAA"] + table["ABABB"]))
+print(paste("ABBAA:", table["ABBAA"] + table["BAABB"]))
+```
+
+
+
+
